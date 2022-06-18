@@ -1,5 +1,6 @@
 package com.jishunamatata.perplayerdifficulty.commands;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -39,7 +40,40 @@ public class SetDifficultyCommand implements CommandExecutor {
 			return true;
 		}
 
-		Player player = (Player) sender;
+
+		Player player = null;
+		//change difficulty for other player
+		if (args.length>1){
+
+			if (!sender.hasPermission("perplayerdifficulty.setotherdifficulty")) {
+				sender.sendMessage(
+						PluginStrings.ERROR_ICON + ChatColor.RED + "You do not have permission to perform this command.");
+				return true;
+			}
+			player = Bukkit.getPlayer(args[0]);
+			if (player == null){
+				sender.sendMessage(
+						PluginStrings.ERROR_ICON + ChatColor.RED + "Player don´t exist");
+				return true;
+			}
+			int dif;
+			try{
+				dif = Integer.parseInt(args[1]);
+			}catch (NumberFormatException e){
+					return true;
+			}
+			if (dif<0 || dif>6){
+				sender.sendMessage(
+						PluginStrings.ERROR_ICON + ChatColor.RED + "Difficulty don´t exist");
+				return true;
+			}
+			difficultyManager.setDifficulty(player,dif);
+			return true;
+
+		}else {
+			player = (Player) sender;
+		}
+
 		CustomInventory inv = new CustomInventory(null, 27, this.configManager.getInventoryName());
 		inv.addClickConsumer(this::onInventoryClick);
 

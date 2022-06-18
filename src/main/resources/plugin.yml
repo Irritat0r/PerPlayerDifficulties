@@ -16,4 +16,7 @@ permissions:
     defualt: true
   perplayerdifficulty.reload:
     description: Allow a user to reload the config file.
-    
+    defualt: op
+  perplayerdifficulty.setotherdifficulty:
+    description: Allow a player to change other players difficulty
+    defualt: op
