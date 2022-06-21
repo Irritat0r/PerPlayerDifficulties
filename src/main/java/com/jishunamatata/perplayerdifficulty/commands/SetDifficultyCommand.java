@@ -3,6 +3,7 @@ package com.jishunamatata.perplayerdifficulty.commands;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -39,7 +40,21 @@ public class SetDifficultyCommand implements CommandExecutor {
 					PluginStrings.ERROR_ICON + ChatColor.RED + "You do not have permission to perform this command.");
 			return true;
 		}
+		if (args.length == 1){
 
+			System.out.println("args 1");
+
+			if (args[0].equals("list")){
+				sender.sendMessage(ChatColor.YELLOW + "OnlinePlayers difficulty:");
+				for (Player p:sender.getServer().getOnlinePlayers()
+					 ) {
+					sender.sendMessage(ChatColor.RED + p.getName() + ": " + ChatColor.WHITE + difficultyManager.getDifficulty(p).getDisplayName());
+				}
+			}
+
+
+			return true;
+		}
 
 		Player player = null;
 		//change difficulty for other player
